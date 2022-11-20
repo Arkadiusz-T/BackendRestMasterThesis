@@ -1,16 +1,35 @@
 package com.tokarskia.BackendMagisterka.controller;
 
+import com.tokarskia.BackendMagisterka.HelperClasses.StringSimilarity;
 import com.tokarskia.BackendMagisterka.model.Response;
+import org.springframework.data.util.Pair;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.LinkedList;
+import java.util.List;
+
 @RestController
 public class ResponseController {
-    final Long czasOtrzymaniaZapytaniaZFrontendu = System.currentTimeMillis();
-
     @GetMapping("/porownajTexty")
-    public Response generateResponse(@RequestParam(value = "textLength", defaultValue = "100")String textLength){
-        return new Response(100.0,"100", "100");
+    public Response generateResponse(@RequestParam(value = "textLength", defaultValue = "100")Long textLength, @RequestParam(value = "czasWyslaniaRequestuZFrontendu", defaultValue = "100")Long czasWyslaniaRequestuZFrontendu){
+        Pair<Long, List<String>> czasOrazTekstyZBazyDanych = pobierzTekstyZBazyDanych();
+        Long czasPobraniaTekstowZBazyDanych = czasOrazTekstyZBazyDanych.getFirst();
+        Long czasPrzeslaniaRequestuZFrontuDoBackendu = policzCzasPrzesaniaRequestuZFrontenduDoBackendu(czasWyslaniaRequestuZFrontendu);
+        Double podobienstwoTextow = StringSimilarity.similarity(czasOrazTekstyZBazyDanych.getSecond().get(0),czasOrazTekstyZBazyDanych.getSecond().get(1));
+        return new Response(czasPobraniaTekstowZBazyDanych,czasPrzeslaniaRequestuZFrontuDoBackendu, "100", podobienstwoTextow);
+    }
+
+    private Long policzCzasPrzesaniaRequestuZFrontenduDoBackendu(Long czasWyslaniaRequestuZFrontendu){
+        return System.currentTimeMillis() - czasWyslaniaRequestuZFrontendu;
+    }
+
+    private Pair<Long, List<String>> pobierzTekstyZBazyDanych (){
+        LinkedList<String> ll = new LinkedList<String>();
+        ll.add("a");
+        ll.add("b");
+        Pair<Long, List<String>> qq = Pair.of(100l,ll);
+        return qq;
     }
 }
