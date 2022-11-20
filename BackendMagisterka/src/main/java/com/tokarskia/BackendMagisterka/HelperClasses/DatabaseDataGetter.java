@@ -13,7 +13,7 @@ public class DatabaseDataGetter {
             String sql = "select costam";
             ResultSet rl = stmt.executeQuery(sql);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            System.out.println("En SQL Error Occured");
         }
         return Pair.of("a", "b");
     }
