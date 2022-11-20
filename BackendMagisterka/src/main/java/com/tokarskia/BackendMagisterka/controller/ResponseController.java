@@ -33,7 +33,7 @@ public class ResponseController {
         Long timeAfterDataRetrival = System.currentTimeMillis();
         Long elapsedTimeToGetData = timeAfterDataRetrival - timeBeforeDataRetrival;
         ll.add(texts.getFirst());
-        ll.add(texts.getFirst());
+        ll.add(texts.getSecond());
         Pair<Long, List<String>> qq = Pair.of(elapsedTimeToGetData,ll);
         return qq;
     }
