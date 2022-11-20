@@ -1,5 +1,6 @@
 package com.tokarskia.BackendMagisterka.controller;
 
+import com.tokarskia.BackendMagisterka.HelperClasses.DatabaseDataGetter;
 import com.tokarskia.BackendMagisterka.HelperClasses.StringSimilarity;
 import com.tokarskia.BackendMagisterka.model.Response;
 import org.springframework.data.util.Pair;
@@ -27,9 +28,13 @@ public class ResponseController {
 
     private Pair<Long, List<String>> pobierzTekstyZBazyDanych (){
         LinkedList<String> ll = new LinkedList<String>();
-        ll.add("a");
-        ll.add("b");
-        Pair<Long, List<String>> qq = Pair.of(100l,ll);
+        Long timeBeforeDataRetrival = System.currentTimeMillis();
+        Pair<String, String> texts = DatabaseDataGetter.getTexts();
+        Long timeAfterDataRetrival = System.currentTimeMillis();
+        Long elapsedTimeToGetData = timeAfterDataRetrival - timeBeforeDataRetrival;
+        ll.add(texts.getFirst());
+        ll.add(texts.getFirst());
+        Pair<Long, List<String>> qq = Pair.of(elapsedTimeToGetData,ll);
         return qq;
     }
 }
