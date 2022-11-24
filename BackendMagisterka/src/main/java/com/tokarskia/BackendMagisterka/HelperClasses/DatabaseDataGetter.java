@@ -6,15 +6,26 @@ import javax.xml.transform.Result;
 import java.sql.*;
 
 public class DatabaseDataGetter {
-    static public Pair<String, String> getTexts(){
+    static public Pair<String, String> getTexts(String textsLength, String textsType){
         try{
-            Connection conn = DriverManager.getConnection("connectionString");
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            String connectionString = "jdbc:mysql://localhost:3306/baza_tekstow";
+            Connection conn = DriverManager.getConnection(connectionString,"root", "Mysq.001464");
             Statement stmt = conn.createStatement();
-            String sql = "select costam";
+            String sql = String.format("select tekst_%s from baza_tekstow.tekty_%s", textsType, textsLength);
             ResultSet rl = stmt.executeQuery(sql);
+            rl.next();
+            String text1 = rl.getString(String.format("tekst_%s", textsType));
+            rl.next();
+            String text2 = rl.getString(String.format("tekst_%s", textsType));
+            return Pair.of(text1, text2);
         } catch (SQLException e) {
             System.out.println("En SQL Error Occured");
+            return Pair.of("a", "a");
+        } catch (ClassNotFoundException e) {
+            System.out.println("En ClassNotFoundException Error Occured");
+            return Pair.of("b", "b");
         }
-        return Pair.of("a", "b");
+
     }
 }
