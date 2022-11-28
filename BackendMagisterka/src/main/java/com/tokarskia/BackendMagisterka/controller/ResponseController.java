@@ -16,22 +16,26 @@ public class ResponseController {
     public Response generateResponse(
             @RequestParam(value = "textLength", defaultValue = "krotkie")String textLength,
             @RequestParam(value = "textType", defaultValue = "varchar")String textType,
-            @RequestParam(value = "czasWyslaniaRequestuZFrontendu", defaultValue = "100")Long czasWyslaniaRequestuZFrontendu){
-        Pair<Long, List<String>> czasOrazTekstyZBazyDanych = pobierzTekstyZBazyDanych(textLength, textType);
-        Long czasPobraniaTekstowZBazyDanych = czasOrazTekstyZBazyDanych.getFirst();
+            @RequestParam(value = "czasWyslaniaRequestuZFrontendu", defaultValue = "100")Long czasWyslaniaRequestuZFrontendu,
+            @RequestParam(value = "dbmsType", defaultValue = "mysql")String dbmsType){
+        Pair<Long, List<String>> czasOrazTekstyZBazyDanych = pobierzTekstyZBazyDanych(textLength, textType, dbmsType);
         Long czasPrzeslaniaRequestuZFrontuDoBackendu = policzCzasPrzesaniaRequestuZFrontenduDoBackendu(czasWyslaniaRequestuZFrontendu);
         Double podobienstwoTextow = StringSimilarity.similarity(czasOrazTekstyZBazyDanych.getSecond().get(0),czasOrazTekstyZBazyDanych.getSecond().get(1));
-        return new Response(czasPobraniaTekstowZBazyDanych,czasPrzeslaniaRequestuZFrontuDoBackendu, String.valueOf(System.currentTimeMillis()), podobienstwoTextow);
+        return new Response(
+                czasOrazTekstyZBazyDanych.getFirst(),
+                czasPrzeslaniaRequestuZFrontuDoBackendu, String.valueOf(System.currentTimeMillis()),
+                podobienstwoTextow
+        );
     }
 
     private Long policzCzasPrzesaniaRequestuZFrontenduDoBackendu(Long czasWyslaniaRequestuZFrontendu){
         return System.currentTimeMillis() - czasWyslaniaRequestuZFrontendu;
     }
 
-    private Pair<Long, List<String>> pobierzTekstyZBazyDanych (String textsLength, String textsType){
+    private Pair<Long, List<String>> pobierzTekstyZBazyDanych (String textsLength, String textsType, String dbmsType){
         LinkedList<String> ll = new LinkedList<String>();
         Long timeBeforeDataRetrival = System.currentTimeMillis();
-        Pair<String, String> texts = DatabaseDataGetter.getTexts(textsLength, textsType);
+        Pair<String, String> texts = DatabaseDataGetter.getTexts(textsLength, textsType, dbmsType);
         Long timeAfterDataRetrival = System.currentTimeMillis();
         Long elapsedTimeToGetData = timeAfterDataRetrival - timeBeforeDataRetrival;
         ll.add(texts.getFirst());

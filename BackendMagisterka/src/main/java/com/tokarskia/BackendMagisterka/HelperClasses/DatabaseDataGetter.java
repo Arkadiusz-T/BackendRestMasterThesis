@@ -1,12 +1,32 @@
 package com.tokarskia.BackendMagisterka.HelperClasses;
 
 import org.springframework.data.util.Pair;
-
-import javax.xml.transform.Result;
 import java.sql.*;
 
 public class DatabaseDataGetter {
-    static public Pair<String, String> getTexts(String textsLength, String textsType){
+    static public Pair<String, String> getTexts(String textsLength, String textsType, String dbmsType){
+        switch (dbmsType){
+            case "mysql":
+                return getTextsFromMySQL(textsLength, textsType, dbmsType);
+            case "mssql":
+                return getTextsFromMsSQL(textsLength, textsType, dbmsType);
+            case "oracledb":
+                return getTextsFromOracleDB(textsLength, textsType, dbmsType);
+            default:
+                System.out.println("Nieprawidłowy typ bazy danych");
+                return Pair.of("a","a");
+        }
+    }
+
+    private static Pair<String, String> getTextsFromOracleDB(String textsLength, String textsType, String dbmsType) {
+        return Pair.of("a","a");
+    }
+
+    private static Pair<String, String> getTextsFromMsSQL(String textsLength, String textsType, String dbmsType) {
+        return Pair.of("a","a");
+    }
+
+    private static Pair<String, String> getTextsFromMySQL(String textsLength, String textsType, String dbmsType){
         try{
             Class.forName("com.mysql.cj.jdbc.Driver");
             String connectionString = "jdbc:mysql://localhost:3306/baza_tekstow";
@@ -26,6 +46,5 @@ public class DatabaseDataGetter {
             System.out.println("En ClassNotFoundException Error Occured");
             return Pair.of("b", "b");
         }
-
     }
 }
