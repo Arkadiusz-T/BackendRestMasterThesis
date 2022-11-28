@@ -19,8 +19,25 @@ public class DatabaseDataGetter {
     }
 
     private static Pair<String, String> getTextsFromOracleDB(String textsLength, String textsType) {
-
-        return Pair.of("a","a");
+        try {
+            Class.forName("oracle.jdbc.driver.OracleDriver");
+            String connectionString = "jdbc:oracle:thin:@localhost:1521:orcl";
+            Connection conn = DriverManager.getConnection(connectionString,"sys as sysdba","Orac.001464");
+            Statement stmt = conn.createStatement();
+            String sql = String.format("select * from tekty_%s", textsLength);
+            ResultSet rl = stmt.executeQuery(sql);
+            rl.next();
+            String text1 = rl.getString(String.format("tekst_%s", textsType));
+            rl.next();
+            String text2 = rl.getString(String.format("tekst_%s", textsType));
+            return Pair.of(text1, text2);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("En SQL Error Occured");
+            return Pair.of("a", "a");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private static Pair<String, String> getTextsFromMsSQL(String textsLength, String textsType) {
