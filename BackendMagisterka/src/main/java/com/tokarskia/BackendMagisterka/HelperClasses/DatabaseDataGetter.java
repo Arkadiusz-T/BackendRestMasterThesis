@@ -24,7 +24,7 @@ public class DatabaseDataGetter {
             String connectionString = "jdbc:oracle:thin:@localhost:1521:orcl";
             Connection conn = DriverManager.getConnection(connectionString,"sys as sysdba","Orac.001464");
             Statement stmt = conn.createStatement();
-            String sql = String.format("select * from tekty_%s", textsLength);
+            String sql = String.format("select * from teksty_%s", textsLength);
             ResultSet rl = stmt.executeQuery(sql);
             rl.next();
             String text1 = rl.getString(String.format("tekst_%s", textsType));
@@ -45,7 +45,7 @@ public class DatabaseDataGetter {
             String connectionString = "jdbc:sqlserver://AREKSLAPTOP\\SQLEXPRESS;databaseName=baza_tekstow;encrypt=true;trustServerCertificate=true";
             Connection conn = DriverManager.getConnection(connectionString,"ns","Mssq.001464");
             Statement stmt = conn.createStatement();
-            String sql = String.format("select tekst_%s from tekty_%s", textsType, textsLength);
+            String sql = String.format("select tekst_%s from teksty_%s", textsType, textsLength);
             ResultSet rl = stmt.executeQuery(sql);
             rl.next();
             String text1 = rl.getString(String.format("tekst_%s", textsType));
@@ -65,7 +65,7 @@ public class DatabaseDataGetter {
             String connectionString = "jdbc:mysql://localhost:3306/baza_tekstow";
             Connection conn = DriverManager.getConnection(connectionString,"root", "Mysq.001464");
             Statement stmt = conn.createStatement();
-            String sql = String.format("select tekst_%s from baza_tekstow.tekty_%s", textsType, textsLength);
+            String sql = String.format("select tekst_%s from baza_tekstow.teksty_%s", textsType, textsLength);
             ResultSet rl = stmt.executeQuery(sql);
             rl.next();
             String text1 = rl.getString(String.format("tekst_%s", textsType));
