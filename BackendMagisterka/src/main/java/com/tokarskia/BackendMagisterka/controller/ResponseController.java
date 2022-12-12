@@ -4,6 +4,7 @@ import com.tokarskia.BackendMagisterka.HelperClasses.DatabaseDataGetter;
 import com.tokarskia.BackendMagisterka.HelperClasses.StringSimilarity;
 import com.tokarskia.BackendMagisterka.model.Response;
 import org.springframework.data.util.Pair;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @RestController
 public class ResponseController {
+    @CrossOrigin(origins = "http://localhost:3000/")
     @GetMapping("/porownajTexty")
     public Response generateResponse(
             @RequestParam(value = "textLength", defaultValue = "krotkie")String textLength,
@@ -23,7 +25,8 @@ public class ResponseController {
         Double podobienstwoTextow = StringSimilarity.similarity(czasOrazTekstyZBazyDanych.getSecond().get(0),czasOrazTekstyZBazyDanych.getSecond().get(1));
         return new Response(
                 czasOrazTekstyZBazyDanych.getFirst(),
-                czasPrzeslaniaRequestuZFrontuDoBackendu, String.valueOf(System.currentTimeMillis()),
+                czasPrzeslaniaRequestuZFrontuDoBackendu,
+                String.valueOf(System.currentTimeMillis()),
                 podobienstwoTextow
         );
     }
