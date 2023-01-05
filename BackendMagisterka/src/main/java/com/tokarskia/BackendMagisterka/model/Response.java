@@ -3,11 +3,11 @@ package com.tokarskia.BackendMagisterka.model;
 public class Response {
     final double czasPobieraniaTekstowZBazyDanych;
     final Long czasPrzeslaniaRequestuZFrontuDoBackendu;
-    final String czasWystawieniaOdpowiedziDlaFrontendu;
+    final Long czasWystawieniaOdpowiedziDlaFrontendu;
     final Double podobienstwoTextow;
 
 
-    public Response(Long czasPobraniaTekstowZBazyDanych, Long czasPrzeslaniaRequestuZFrontuDoBackendu, String czasWystawieniaOdpowiedziDlaFrontendu, Double podobienstwoTextow) {
+    public Response(Long czasPobraniaTekstowZBazyDanych, Long czasPrzeslaniaRequestuZFrontuDoBackendu, Long czasWystawieniaOdpowiedziDlaFrontendu, Double podobienstwoTextow) {
         this.czasPobieraniaTekstowZBazyDanych = czasPobraniaTekstowZBazyDanych;
         this.czasPrzeslaniaRequestuZFrontuDoBackendu = czasPrzeslaniaRequestuZFrontuDoBackendu;
         this.czasWystawieniaOdpowiedziDlaFrontendu = czasWystawieniaOdpowiedziDlaFrontendu;
@@ -22,7 +22,7 @@ public class Response {
         return czasPrzeslaniaRequestuZFrontuDoBackendu;
     }
 
-    public String getCzasWystawieniaOdpowiedziDlaFrontendu() {
+    public Long getCzasWystawieniaOdpowiedziDlaFrontendu() {
         return czasWystawieniaOdpowiedziDlaFrontendu;
     }
 
