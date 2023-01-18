@@ -1,7 +1,7 @@
 package com.tokarskia.BackendMagisterka.model;
 
 public class Response {
-    final double czasPobieraniaTekstowZBazyDanych;
+    final Long czasPobieraniaTekstowZBazyDanych;
     final Long czasPrzeslaniaRequestuZFrontuDoBackendu;
     final Long czasWystawieniaOdpowiedziDlaFrontendu;
     final Double podobienstwoTextow;
@@ -14,7 +14,7 @@ public class Response {
         this.podobienstwoTextow = podobienstwoTextow;
     }
 
-    public double getCzasPobieraniaTekstowZBazyDanych() {
+    public Long getCzasPobieraniaTekstowZBazyDanych() {
         return czasPobieraniaTekstowZBazyDanych;
     }
 

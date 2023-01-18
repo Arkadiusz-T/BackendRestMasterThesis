@@ -18,9 +18,9 @@ public class ResponseController {
     public Response generateResponse(
             @RequestParam(value = "textLength", defaultValue = "krotkie")String textLength,
             @RequestParam(value = "textType", defaultValue = "varchar")String textType,
-            @RequestParam(value = "czasWyslaniaRequestuZFrontendu", defaultValue = "100")Long czasWyslaniaRequestuZFrontendu,
+            @RequestParam(value = "requestSentTimeStamp", defaultValue = "100")Long requestSentTime,
             @RequestParam(value = "dbmsType", defaultValue = "mysql")String dbmsType){
-        Long czasPrzeslaniaRequestuZFrontuDoBackendu = policzCzasPrzesaniaRequestuZFrontenduDoBackendu(czasWyslaniaRequestuZFrontendu, System.currentTimeMillis());
+        Long czasPrzeslaniaRequestuZFrontuDoBackendu = policzCzasPrzesaniaRequestuZFrontenduDoBackendu(requestSentTime, System.currentTimeMillis());
         Pair<Long, List<String>> czasOrazTekstyZBazyDanych = pobierzTekstyZBazyDanych(textLength, textType, dbmsType);
         Double podobienstwoTextow = StringSimilarity.similarity(czasOrazTekstyZBazyDanych.getSecond().get(0),czasOrazTekstyZBazyDanych.getSecond().get(1));
         return new Response(
